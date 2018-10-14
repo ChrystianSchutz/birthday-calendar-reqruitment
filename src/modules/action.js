@@ -39,6 +39,24 @@ export function fetchData(url) {
   }
 }
 
+
+export function postData(url = ``, data = {}) {
+  return dispatch => {
+    dispatch(fetchLoading(true))
+
+    return fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => console.log(response))
+    .catch(() => dispatch(fetchHasErrored(true)))
+  }
+}
+
+
 export function setCurrentWeek(date){
   return {
     type: 'SET_CURRENT_WEEK',
@@ -50,5 +68,12 @@ export function setSelectedDate(date){
   return {
     type: 'SET_SELECTED_DATE',
     currentWeek: date
+  }
+}
+
+export function setBirthday(date){
+  return {
+    type: 'SET_BIRTHDAY',
+    birthday: date
   }
 }
