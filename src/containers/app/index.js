@@ -11,8 +11,8 @@ const App = () => (
       </p>
     </header>
     <main>
-      <BirthdayModal/>
       <Route exact path="/" component={Calendar} />
+      <BirthdayModal/>
     </main>
   </div>
 )

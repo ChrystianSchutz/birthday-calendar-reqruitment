@@ -1,23 +1,27 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import dateFns, { distanceInWordsToNow } from 'date-fns'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import { postData, setCurrentWeek, setSelectedDate } from '../../modules/action'
 
 class BirthdayModal extends React.Component {
-  state = { name: '', date: null }
+  state = { name: '', birthdate: null }
 
-  handleChangeDate = day => this.setState({ date: day })
+  handleChangeDate = day => this.setState({ birthdate: day })
   handleChangeInput = event => this.setState({ name: event.target.value })
 
   render() {
     return (
-      <div>
+      <div className="formContainer">
+        <p className="centerText">Add your birthday!</p>
+        <p>Name:</p>
         <input value={this.state.value} onChange={this.handleChangeInput} />
-
-        <DayPickerInput onDayChange={day => this.handleChangeDate(day)} />
-        <button
+        <p>Age:</p>
+        <DayPickerInput
+          value={this.state.birthdate || this.props.getSelectedDate}
+          onDayChange={day => this.handleChangeDate(day)}
+        />
+        <button className="submitButton"
           onClick={() =>
             this.props.postData(' http://localhost:7555/birthday', this.state)
           }>
@@ -28,12 +32,14 @@ class BirthdayModal extends React.Component {
   }
 }
 
-const mapStateToProps = () => {}
+const mapStateToProps = state => {
+  return {
+    getSelectedDate: state.dateReducer.selectedDate
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
-    setCurrentWeek: date => dispatch(setCurrentWeek(date)),
-    setSelectedDate: date => dispatch(setSelectedDate(date)),
     postData: (url, data) => dispatch(postData(url, data))
   }
 }

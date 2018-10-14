@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import dateFns, { distanceInWordsToNow } from "date-fns";
+import dateFns from "date-fns";
 import 'react-day-picker/lib/style.css';
 import { fetchData, setCurrentWeek, setSelectedDate } from '../../modules/action'
 
