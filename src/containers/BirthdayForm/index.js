@@ -2,9 +2,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
-import { postData, setCurrentWeek, setSelectedDate } from '../../modules/action'
+import { postData} from '../../modules/action'
 
-class BirthdayModal extends React.Component {
+class BirthdayForm extends React.Component {
   state = { name: '', birthdate: null }
 
   handleChangeDate = day => this.setState({ birthdate: day })
@@ -21,9 +21,13 @@ class BirthdayModal extends React.Component {
           value={this.state.birthdate || this.props.getSelectedDate}
           onDayChange={day => this.handleChangeDate(day)}
         />
-        <button className="submitButton"
+        <button
+          className="submitButton"
           onClick={() =>
-            this.props.postData(' http://localhost:7555/birthday', this.state)
+            this.props.postData(' http://localhost:7555/birthday', {
+              name: this.state.name,
+              birthdate: this.state.birthdate || this.props.getSelectedDate
+            })
           }>
           submit
         </button>
@@ -47,4 +51,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BirthdayModal)
+)(BirthdayForm)

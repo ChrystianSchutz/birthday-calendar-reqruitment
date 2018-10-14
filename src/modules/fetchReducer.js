@@ -27,3 +27,23 @@ export function fetchedItems(state = [], action) {
       return state
   }
 }
+
+const defaultValues = {
+  user: {
+    name: null,
+    birthdate: null,
+    age: null
+  },
+  sharedAge: [],
+  sharedBirthdays: []
+}
+
+export function birthdayResponse(state = defaultValues, action) {
+  switch (action.type) {
+    case 'BIRTHDAY_RESPONSE':
+      return action.response
+
+    default:
+      return state
+  }
+}

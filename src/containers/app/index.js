@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import Calendar from '../Calendar'
-import BirthdayModal from '../BirthdayModal';
+import BirthdayForm from '../BirthdayForm';
+import BirthdayInformation from '../BirthdayInformation';
 
 const App = () => (
   <div>
@@ -12,7 +13,8 @@ const App = () => (
     </header>
     <main>
       <Route exact path="/" component={Calendar} />
-      <BirthdayModal/>
+      <BirthdayForm/>
+      <BirthdayInformation/>
     </main>
   </div>
 )

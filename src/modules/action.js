@@ -40,6 +40,13 @@ export function fetchData(url) {
 }
 
 
+export function birthdayResponse(response) {
+  return {
+    type: 'BIRTHDAY_RESPONSE',
+    response
+  }
+}
+
 export function postData(url = ``, data = {}) {
   return dispatch => {
     dispatch(fetchLoading(true))
@@ -47,11 +54,21 @@ export function postData(url = ``, data = {}) {
     return fetch(url, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
+          "Content-Type": "application/json; charset=utf-8",
+      },
         body: JSON.stringify(data),
     })
-    .then(response => console.log(response))
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+
+      dispatch(fetchLoading(false))
+
+      return response
+    })
+    .then(response => response.json())
+    .then(response => dispatch(birthdayResponse(response)))
     .catch(() => dispatch(fetchHasErrored(true)))
   }
 }
