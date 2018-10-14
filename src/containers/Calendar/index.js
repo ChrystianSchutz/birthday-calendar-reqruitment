@@ -2,13 +2,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import dateFns, { distanceInWordsToNow } from "date-fns";
 import 'react-day-picker/lib/style.css';
-import { fetchData } from '../../modules/action'
+import { fetchData, setCurrentWeek, setSelectedDate } from '../../modules/action'
 
 class Calendar extends React.Component {
-  state = {
-    currentMonth: new Date(),
-    selectedDate: new Date(),
-  };
 
   renderHeader() {
     const dateFormat = "MMMM YYYY";
@@ -16,14 +12,14 @@ class Calendar extends React.Component {
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
-          <div className="icon" onClick={this.prevMonth}>
+          <div className="icon" onClick={this.prevWeek}>
             chevron_left
           </div>
         </div>
         <div className="col col-center">
-          <span>{dateFns.format(this.state.currentMonth, dateFormat)}</span>
+          <span>{dateFns.format(this.props.getCurrentWeek, dateFormat)}</span>
         </div>
-        <div className="col col-end" onClick={this.nextMonth}>
+        <div className="col col-end" onClick={this.nextWeek}>
           <div className="icon">chevron_right</div>
         </div>
       </div>
@@ -34,7 +30,7 @@ class Calendar extends React.Component {
     const dateFormat = "dddd";
     const days = [];
 
-    let startDate = dateFns.startOfWeek(this.state.currentMonth);
+    let startDate = dateFns.startOfWeek(this.props.getCurrentWeek);
 
     for (let i = 0; i < 7; i++) {
       days.push(
@@ -48,9 +44,7 @@ class Calendar extends React.Component {
   }
 
   renderCells() {
-    const { currentMonth, selectedDate } = this.state;
-    const monthStart = dateFns.startOfWeek(currentMonth);
-    const monthEnd = dateFns.endOfWeek(monthStart);
+    const monthStart = dateFns.startOfWeek(this.props.getCurrentWeek);
     const startDate = dateFns.startOfWeek(monthStart);
     
     const dateFormat = "D";
@@ -68,7 +62,7 @@ class Calendar extends React.Component {
             className={`col cell ${
               !dateFns.isSameMonth(day, monthStart)
                 ? "disabled"
-                : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
+                : dateFns.isSameDay(day, this.props.getSelectedDate) ? "selected" : ""
             }`}
             key={day}
             onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
@@ -89,24 +83,19 @@ class Calendar extends React.Component {
   }
 
   onDateClick = day => {
-    // show modal
-
-    this.setState({
-      selectedDate: day
-    });
-
+    this.props.setSelectedDate(day)
   };
 
-  nextMonth = () => {
-    this.setState({
-      currentMonth: dateFns.addWeeks(this.state.currentMonth, 1)
-    });
+  nextWeek = () => {
+    this.props.setCurrentWeek(
+      dateFns.addWeeks(this.props.getCurrentWeek, 1)
+    )
   };
 
-  prevMonth = () => {
-    this.setState({
-      currentMonth: dateFns.subWeeks(this.state.currentMonth, 1)
-    });
+  prevWeek = () => {
+    this.props.setCurrentWeek(
+      dateFns.subWeeks(this.props.getCurrentWeek, 1)
+    )
   };
 
 
@@ -114,8 +103,6 @@ class Calendar extends React.Component {
   render() {
     return (
       <div>
-        
- 
       <div className="calendar">
         {this.renderHeader()}
         {this.renderDays()}
@@ -128,4 +115,21 @@ class Calendar extends React.Component {
 
 
 
-export default Calendar
+const mapStateToProps = state => {
+  return {
+    getCurrentWeek: state.dateReducer.currentWeek,
+    getSelectedDate: state.dateReducer.selectedDate,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setCurrentWeek: date => dispatch(setCurrentWeek(date)),
+    setSelectedDate: date => dispatch(setSelectedDate(date))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar)

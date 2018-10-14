@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux'
-import { items, fetchHasErrored, fetchLoading } from './items';
-
+import { fetchedItems, fetchHasErrored, fetchLoading } from './fetchReducer';
+import { dateReducer } from './dateReducer';
 export default combineReducers({
-  items,
+  fetchedItems,
   fetchHasErrored,
   fetchLoading,
+  dateReducer
 })

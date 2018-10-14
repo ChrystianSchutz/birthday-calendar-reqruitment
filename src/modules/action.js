@@ -38,3 +38,17 @@ export function fetchData(url) {
       .catch(() => dispatch(fetchHasErrored(true)))
   }
 }
+
+export function setCurrentWeek(date){
+  return {
+    type: 'SET_CURRENT_WEEK',
+    currentWeek: date
+  }
+}
+
+export function setSelectedDate(date){
+  return {
+    type: 'SET_SELECTED_DATE',
+    currentWeek: date
+  }
+}
