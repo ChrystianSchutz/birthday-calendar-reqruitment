@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
-import { postData} from '../../modules/action'
+import { postData } from '../../modules/action'
 
 class BirthdayForm extends React.Component {
   state = { name: '', birthdate: null }
@@ -24,7 +24,7 @@ class BirthdayForm extends React.Component {
         <button
           className="submitButton"
           onClick={() =>
-            this.props.postData(' http://localhost:7555/birthday', {
+            this.props.postData('/birthday', {
               name: this.state.name,
               birthdate: this.state.birthdate || this.props.getSelectedDate
             })

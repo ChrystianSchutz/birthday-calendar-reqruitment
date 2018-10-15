@@ -7,7 +7,6 @@ import App from './containers/app'
 
 import 'sanitize.css/sanitize.css'
 import './calendar.css'
-import './spiner.css'
 import './index.css'
 
 const target = document.querySelector('#root')

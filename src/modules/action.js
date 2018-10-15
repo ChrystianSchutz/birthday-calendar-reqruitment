@@ -1,3 +1,5 @@
+import {envUrl} from './envs';
+
 export function fetchHasErrored(bool) {
   return {
     type: 'ITEMS_HAS_ERRORED',
@@ -23,7 +25,7 @@ export function fetchData(url) {
   return dispatch => {
     dispatch(fetchLoading(true))
 
-    fetch(url)
+    fetch(envUrl + url)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText)
@@ -51,7 +53,7 @@ export function postData(url = ``, data = {}) {
   return dispatch => {
     dispatch(fetchLoading(true))
 
-    return fetch(url, {
+    return fetch(envUrl + url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
