@@ -229,4 +229,5 @@ main {
   flex-grow: 0;
   flex-basis: calc(100%/7);
   width: calc(100%/7);
+  height: 200px;
 }

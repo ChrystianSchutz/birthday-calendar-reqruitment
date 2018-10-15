@@ -6,6 +6,10 @@ import { fetchData, setCurrentWeek, setSelectedDate } from '../../modules/action
 
 class Calendar extends React.Component {
 
+  componentDidMount(){
+    this.props.fetchData(' http://localhost:7555/birthdays');
+  }
+
   renderHeader() {
     const dateFormat = "MMMM YYYY";
 
@@ -46,6 +50,7 @@ class Calendar extends React.Component {
   renderCells() {
     const monthStart = dateFns.startOfWeek(this.props.getCurrentWeek);
     const startDate = dateFns.startOfWeek(monthStart);
+    const startingDayOfWeek = dateFns.getDayOfYear(this.props.getCurrentWeek);
     
     const dateFormat = "D";
     const rows = [];
@@ -57,6 +62,7 @@ class Calendar extends React.Component {
       for (let i = 0; i < 7; i++) {
         formattedDate = dateFns.format(day, dateFormat);
         const cloneDay = day;
+        const dayOfWeek = startingDayOfWeek + i;
         days.push(
           <div
             className={`col cell ${
@@ -69,6 +75,12 @@ class Calendar extends React.Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
+                        
+             {this.props.getBirthdays.map((birthday) => {
+              if(birthday.dayOfYear === dayOfWeek){
+                return <p>{birthday.name}</p>
+              }              
+            })} 
           </div>
         );
         day = dateFns.addDays(day, 1);
@@ -119,13 +131,15 @@ const mapStateToProps = state => {
   return {
     getCurrentWeek: state.dateReducer.currentWeek,
     getSelectedDate: state.dateReducer.selectedDate,
+    getBirthdays: state.fetchedBirthdays
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setCurrentWeek: date => dispatch(setCurrentWeek(date)),
-    setSelectedDate: date => dispatch(setSelectedDate(date))
+    setSelectedDate: date => dispatch(setSelectedDate(date)),
+    fetchData: (url) => dispatch(fetchData(url))
   }
 }
 

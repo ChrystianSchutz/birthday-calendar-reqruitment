@@ -18,7 +18,7 @@ export function fetchLoading(state = false, action) {
   }
 }
 
-export function fetchedItems(state = [], action) {
+export function fetchedBirthdays(state = [], action) {
   switch (action.type) {
     case 'ITEMS_FETCH_DATA_SUCCESS':
       return action.items
