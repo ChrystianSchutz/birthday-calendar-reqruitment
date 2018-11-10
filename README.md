@@ -1,15 +1,3 @@
-This is simple frontend Omdb Api Search created with react, redux, react-router for recruitment task.
+## Birthday Calendar
 
-## Installation
-
-```bash
-git clone https://github.com/ChrystianSchutz/Omdb-Api-Search.git
-cd Omdb-Api-Search
-yarn
-```
-
-## Get started
-
-```bash
-yarn start
-```
+Recruitment task done in react, redux and node.js for displaying, viewing and processing user birthdays. It should display 7 days in calendar, allow user to add his own birthday, view other users birthdays and communicate with backend.
